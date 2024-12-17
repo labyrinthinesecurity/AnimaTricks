@@ -6,6 +6,8 @@ Sensitive transactions execution often requires to show proofs of ID and proofs 
 
 Agents (customs officers, bank clerks, accountants, ...) must painstakingly type-in the identification fields into their back-end systems, causing both processing delays and significant human workload.
 
+![alt text](https://github.com/labyrinthinesecurity/AnimaTricks/blob/main/animaTricks_cover.png?raw=true)
+
 ## Meet Azure AI Document Intelligence
 
 To expedite this task, and to save their customers' money, Microsoft proposes an Azure AI service called Document Intelligence ("DocIntel"), where said customers can rely on a range of pre-existing data extraction templates (invoices, passports, tax forms, ...) or create their own ones.
@@ -19,7 +21,7 @@ To ease the template-modeling experience, a Studio is provided as part of DocInt
 
 Testing Malaysian passport data extraction using the Azure AI Doc Intel Studio.
 
-<!-- image -->
+![alt text](https://github.com/labyrinthinesecurity/AnimaTricks/blob/main/animaTricks_malaysia.png?raw=true)
 
 ## Staging a WYSIWYG attack against Doc Intelligence
 
@@ -46,13 +48,13 @@ Imagine one embeds two slightly different versions of a drivers license
 
 into the same APNG: one for Chris Smith, and another one for Bob Smart. Only the name change. How will the DoctIntel API react ?
 
-<!-- image -->
+![alt text](https://github.com/labyrinthinesecurity/AnimaTricks/blob/main/animaTricks_chris.png?raw=true)
 
 Chris' driver license
 
 Chris' edited license, now showing Bob Small
 
-<!-- image -->
+![alt text](https://github.com/labyrinthinesecurity/AnimaTricks/blob/main/animaTricks_bob.png?raw=true)
 
 If the endpoint is hardened, it should block attempts to use APNG instead of PNG, because there is no reason to upload anything else than static scan of images. Multiple frames are a source of confusion and should return a HTTP client error (4**), or an HTTP server error (5**). But we shouldn't expect the typical HTTP 200/202 response codes indicating that the data was processed.
 
@@ -62,7 +64,7 @@ To optimize the rendering, we can use an APNG assembler tool that will remove th
 
 apngasm, an animated PNG assembler
 
-<!-- image -->
+![alt text](https://github.com/labyrinthinesecurity/AnimaTricks/blob/main/apngasm.png?raw=true)
 
 The -l1 option sets the loop count to 1, and the -f makes one of the frames invisible.
 
@@ -78,13 +80,13 @@ Let's put our experience to the ultimate test. We submit spoofed.png to the API 
 
 The API endpoint accepts animated PNG !
 
-<!-- image -->
+![alt text](https://github.com/labyrinthinesecurity/AnimaTricks/blob/main/animaTricks_endpoint.png?raw=true)
 
 We can get a visual confirmation of this exploit in the Studio:
 
 Getting Chris' identifiers when we set Bob as the visible frame !
 
-<!-- image -->
+![alt text](https://github.com/labyrinthinesecurity/AnimaTricks/blob/main/animaTricks_spoofed.png?raw=true)
 
 Bob's ID shows up on the left, but Chris' ID shows up on the right... With 97% + confidence.
 
